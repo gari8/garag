@@ -1,0 +1,39 @@
+baseURL = 'https://gari8.com/'
+languageCode = 'ja'
+defaultContentLanguage = 'ja'
+title = 'gari8 pages'
+enableEmoji = true
+enableRobotsTXT = true
+enableGitInfo = true
+
+sectionPagesMenu = 'main'
+
+paginate = 20
+
+[frontmatter]
+	date = ["date", "publishDate", "lastmod", ":git"]
+	lastmod = ["lastmod", ":git", "date"]
+
+[markup]
+	[markup.goldmark]
+		[markup.goldmark.renderer]
+			unsafe = true
+
+[permalinks]
+	blog = "blog/:year/:month/:filename/"
+
+[taxonomies]
+	category = "categories"
+	tag = "tags"
+
+[related]
+	threshold = 1
+	[[related.indices]]
+		name = "tags"
+		weight = 100
+	[[related.indices]]
+		name = "categories"
+		weight = 100
+
+[params.analytics]
+	google = "UA-XXXXX-X"

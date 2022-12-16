@@ -1,0 +1,25 @@
+{
+  {{ with $blogs := where .Site.RegularPages "Section" "blog" }}
+  "data": [{{ range $index, $page := $blogs }}
+    {{ $image := partial "og-image-path" . }}
+    {{- $page := . -}}
+    {{- with ( index $page.Params "categories" ) -}}
+      {{- range ( first 1 . ) -}}
+        {{- $categories := dict "name" (i18n .) "key" . -}}
+        {{- $page.Scratch.Set "categories" $categories -}}
+      {{- end -}}
+    {{- end -}}{
+      "url": "{{ $page.Permalink }}",
+      "title": "{{ $page.Title }}",
+      "image": "{{ $image | relURL }}",
+      "date": "{{ .PublishDate.Format "2006.01.02" }}",
+      "categories": {{ (.Scratch.Get "categories") | jsonify }},
+      "tags": [{{- with ( index .Params "tags" ) -}}
+        {{- range $i, $tag := . -}}
+        {{ if ne $i 0 }},{{ end }}"{{ $tag }}"
+        {{- end -}}
+        {{- end -}}],
+    }{{ if gt (sub (len $blogs) 1) $index }},{{ end }}{{ end }}
+  ]
+  {{ end }}
+}
